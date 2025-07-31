@@ -47,7 +47,9 @@ $config = [
             'showScriptName' => false,
             'enableStrictParsing' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule', 'controller' => ['task', 'result']],
+                ['class' => 'yii\rest\UrlRule', 'controller' => ['task', 'result', 'user', 'position']],
+                'POST auth/login' => 'auth/login',
+                'POST auth/logout' => 'auth/logout',
                 'GET task/by-date' => 'task/by-date',  // нове правило
             ],
         ],
