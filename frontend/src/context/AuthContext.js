@@ -20,7 +20,7 @@ export function AuthProvider({ children }) {
     const login = async (username, password) => {
         try {
             const res = await axios.post(
-                "https://tasks.fineko.space/backend/web/index.php?r=auth/login",
+                "https://tasks.fineko.space/api/auth/login",
                 { username, password }
             );
             if (res.data && res.data.success) {
@@ -37,7 +37,7 @@ export function AuthProvider({ children }) {
     const logout = async () => {
         try {
             await axios.post(
-                "https://tasks.fineko.space/backend/web/index.php?r=auth/logout"
+                "https://tasks.fineko.space/api/auth/logout"
             );
         } catch (e) {
             // ignore
