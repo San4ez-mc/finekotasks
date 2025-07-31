@@ -10,10 +10,10 @@ export default function OrgStructurePage() {
             try {
                 const [posRes, userRes] = await Promise.all([
                     axios.get(
-                        "https://tasks.fineko.space/backend/web/index.php?r=position"
+                        "https://tasks.fineko.space/api/position"
                     ),
                     axios.get(
-                        "https://tasks.fineko.space/backend/web/index.php?r=user"
+                        "https://tasks.fineko.space/api/user"
                     ),
                 ]);
                 const positions = posRes.data;
