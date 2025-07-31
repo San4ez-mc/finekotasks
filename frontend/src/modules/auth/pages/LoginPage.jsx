@@ -1,6 +1,8 @@
+// frontend/src/modules/auth/pages/LoginPage.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Layout from "../../../components/layout/Layout";
+import AuthLayout from "../../../components/layout/AuthLayout/AuthLayout";
+import "./LoginPage.css";
 import { useAuth } from "../../../context/AuthContext";
 
 export default function LoginPage() {
@@ -21,12 +23,12 @@ export default function LoginPage() {
     };
 
     return (
-        <Layout>
-            <h2>Авторизація</h2>
-            {error && <p style={{ color: "red" }}>{error}</p>}
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Логін:</label>
+        <AuthLayout>
+            <form onSubmit={handleSubmit} className="login-form">
+                <h2>Авторизація</h2>
+                {error && <div className="error">{error}</div>}
+                <div className="form-group">
+                    <label>Логін</label>
                     <input
                         type="text"
                         value={username}
@@ -34,8 +36,8 @@ export default function LoginPage() {
                         placeholder="Введіть логін"
                     />
                 </div>
-                <div>
-                    <label>Пароль:</label>
+                <div className="form-group">
+                    <label>Пароль</label>
                     <input
                         type="password"
                         value={password}
@@ -44,7 +46,19 @@ export default function LoginPage() {
                     />
                 </div>
                 <button type="submit">Увійти</button>
+                <button
+                    type="button"
+                    className="telegram-btn"
+                    onClick={() =>
+                        window.open(
+                            "https://t.me/finekobot?start=login",
+                            "_blank"
+                        )
+                    }
+                >
+                    Увійти через Telegram
+                </button>
             </form>
-        </Layout>
+        </AuthLayout>
     );
 }

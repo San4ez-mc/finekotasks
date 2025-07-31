@@ -41,4 +41,21 @@ class AuthController extends Controller
         Yii::$app->user->logout();
         return ['success' => true];
     }
+
+
+    public function actionTelegramLogin()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $id = Yii::$app->request->post('telegram_id');
+        if (!$id) {
+            return ['success' => false, 'message' => 'telegram_id required'];
+        }
+        $user = \app\models\User::findOne(['telegram_id' => $id]);
+        if ($user) {
+            Yii::$app->user->login($user, 3600 * 24 * 30);
+            return ['success' => true, 'user' => $user];
+        }
+        return ['success' => false, 'message' => 'User not found'];
+    }
+
 }
