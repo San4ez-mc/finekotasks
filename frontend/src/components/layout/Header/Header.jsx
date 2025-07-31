@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "./Header.css";
 import { FiMenu } from "react-icons/fi"; // стильна іконка меню
+import { useAuth } from "../../../context/AuthContext";
 
 export default function Header({ onToggleMenu }) {
     const [userMenuOpen, setUserMenuOpen] = useState(false);
+    const { user, logout } = useAuth();
 
     return (
         <header className="app-header">
@@ -12,6 +14,7 @@ export default function Header({ onToggleMenu }) {
                 <button className="menu-btn" onClick={onToggleMenu} title="Toggle menu">
                     <FiMenu size={22} color="#fff" />
                 </button>
+                {user && <span className="org-name">{user.organization?.name}</span>}
             </div>
 
             {/* Центр: пошук */}
@@ -29,7 +32,7 @@ export default function Header({ onToggleMenu }) {
                         <ul>
                             <li>Профіль</li>
                             <li>Налаштування</li>
-                            <li className="logout">Вихід</li>
+                            <li className="logout" onClick={logout}>Вихід</li>
                         </ul>
                     </div>
                 )}

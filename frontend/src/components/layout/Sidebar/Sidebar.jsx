@@ -26,7 +26,7 @@ export default function Sidebar({ isOpen, onToggle }) {
                 <nav>
                     <ul>
                         <li>
-                            <NavLink to="/" activeclassname="active">
+                            <NavLink to="/results" activeclassname="active">
                                 <FiBarChart2 className="menu-icon" />
                                 {isOpen && <span className="menu-text">Результати</span>}
                             </NavLink>
