@@ -1,4 +1,6 @@
 AddCharset UTF-8 .html
+DirectoryIndex frontend/build/index.html
+RewriteEngine On
 <FilesMatch "\.(html)$">
    Header set Cache-Control: "no-cache, no-store"
    Header unset ETag
