@@ -56,4 +56,5 @@ class AuthController extends Controller
         }
         return ['success' => false, 'message' => 'User not found'];
     }
+
 }
