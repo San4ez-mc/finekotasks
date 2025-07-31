@@ -42,6 +42,7 @@ class AuthController extends Controller
         return ['success' => true];
     }
 
+
     public function actionTelegramLogin()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -56,4 +57,5 @@ class AuthController extends Controller
         }
         return ['success' => false, 'message' => 'User not found'];
     }
+
 }
