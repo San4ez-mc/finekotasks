@@ -5,6 +5,7 @@ import TasksPage from "../modules/tasks/pages/TasksPage";
 import DailyTasksPage from "../modules/tasks/pages/DailyTasksPage";
 import ResultsPage from "../modules/results/pages/ResultsPage";
 import OrgStructurePage from "../modules/orgStructure/pages/OrgStructurePage";
+import TelegramGroupPage from "../modules/telegram/pages/TelegramGroupPage";
 import LoginPage from "../modules/auth/pages/LoginPage";
 import NotFound from "../pages/NotFound";
 import { useAuth } from "../context/AuthContext";
@@ -49,6 +50,14 @@ export default function AppRouter() {
                     element={
                         <RequireAuth>
                             <OrgStructurePage />
+                        </RequireAuth>
+                    }
+                />
+                <Route
+                    path="/telegram-group"
+                    element={
+                        <RequireAuth>
+                            <TelegramGroupPage />
                         </RequireAuth>
                     }
                 />

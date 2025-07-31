@@ -50,6 +50,7 @@ $config = [
                 ['class' => 'yii\rest\UrlRule', 'controller' => ['task', 'result', 'user', 'position']],
                 'POST auth/login' => 'auth/login',
                 'POST auth/logout' => 'auth/logout',
+                'POST auth/telegram-login' => 'auth/telegram-login',
                 'GET task/by-date' => 'task/by-date',  // нове правило
             ],
         ],
