@@ -15,7 +15,7 @@ Header set X-Content-Type-Options nosniff
 
 # API-запити перенаправляємо в Yii2
 RewriteCond %{REQUEST_URI} ^/api/
-RewriteRule ^api/(.*)$ backend/web/index.php [L]
+RewriteRule ^api/(.*)$ backend/web/index.php?r=$1 [L,QSA]
 
 # Видаємо React build з папки frontend/build
 # Спочатку обробляємо статичні ресурси
