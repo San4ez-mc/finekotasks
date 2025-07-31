@@ -18,6 +18,8 @@ RewriteCond %{REQUEST_URI} ^/api/
 RewriteRule ^api/(.*)$ backend/web/index.php [L]
 
 # Видаємо React build з папки frontend/build
+# Спочатку обробляємо статичні ресурси
+RewriteRule ^static/(.*)$ frontend/build/static/$1 [L]
 # Якщо файл або директорія існує — віддаємо як є
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
