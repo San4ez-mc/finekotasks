@@ -1,4 +1,6 @@
 AddCharset UTF-8 .html
+DirectoryIndex frontend/build/index.html
+RewriteEngine On
 <FilesMatch "\.(html)$">
    Header set Cache-Control: "no-cache, no-store"
    Header unset ETag
@@ -10,3 +12,16 @@ Header set X-Content-Type-Options nosniff
     Header set Pragma "no-cache"
     Header set Expires 0
 </IfModule>
+
+# API-запити перенаправляємо в Yii2
+RewriteCond %{REQUEST_URI} ^/api/
+RewriteRule ^api/(.*)$ backend/web/index.php [L]
+
+# Видаємо React build з папки frontend/build
+# Якщо файл або директорія існує — віддаємо як є
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Все інше — віддаємо frontend/build/index.html
+RewriteRule ^ frontend/build/index.html [L]

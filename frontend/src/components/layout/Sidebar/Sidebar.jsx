@@ -1,7 +1,7 @@
 import React from "react";
 import "./Sidebar.css";
 import { NavLink } from "react-router-dom";
-import { FiMenu, FiBarChart2, FiCheckSquare, FiGrid } from "react-icons/fi";
+import { FiMenu, FiBarChart2, FiCheckSquare, FiGrid, FiSend } from "react-icons/fi";
 
 export default function Sidebar({ isOpen, onToggle }) {
     return (
@@ -26,7 +26,7 @@ export default function Sidebar({ isOpen, onToggle }) {
                 <nav>
                     <ul>
                         <li>
-                            <NavLink to="/" activeclassname="active">
+                            <NavLink to="/results" activeclassname="active">
                                 <FiBarChart2 className="menu-icon" />
                                 {isOpen && <span className="menu-text">Результати</span>}
                             </NavLink>
@@ -41,6 +41,12 @@ export default function Sidebar({ isOpen, onToggle }) {
                             <NavLink to="/org-structure" activeclassname="active">
                                 <FiGrid className="menu-icon" />
                                 {isOpen && <span className="menu-text">Орг. структура</span>}
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/telegram-group" activeclassname="active">
+                                <FiSend className="menu-icon" />
+                                {isOpen && <span className="menu-text">Телеграм</span>}
                             </NavLink>
                         </li>
                     </ul>
