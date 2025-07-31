@@ -63,6 +63,16 @@ $config = [
                 $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
             },
         ],
+        'as cors' => [
+            'class' => \yii\filters\Cors::class,
+            'cors' => [
+                'Origin' => ['https://ftasks.local'], // 👈 або ['*'] для всіх
+                'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+                'Access-Control-Allow-Credentials' => true,
+                'Access-Control-Allow-Headers' => ['*'],
+                'Access-Control-Max-Age' => 86400,
+            ],
+        ],
     ],
     'params' => $params,
 ];
