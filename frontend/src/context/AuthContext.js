@@ -3,6 +3,15 @@ import axios from "axios";
 
 const AuthContext = createContext(null);
 
+function getCsrfToken() {
+    const meta = document.querySelector('meta[name="csrf-token"]');
+    if (meta) {
+        return meta.getAttribute('content');
+    }
+    const match = document.cookie.match(/(^|;\s*)_csrf=([^;]+)/);
+    return match ? decodeURIComponent(match[2]) : "";
+}
+
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
 
@@ -21,7 +30,11 @@ export function AuthProvider({ children }) {
         try {
             const res = await axios.post(
                 "https://tasks.fineko.space/api/auth/login",
-                { username, password }
+                { username, password },
+                {
+                    headers: { "X-CSRF-Token": getCsrfToken() },
+                    withCredentials: true,
+                }
             );
             if (res.data && res.data.success) {
                 setUser(res.data.user);
@@ -37,7 +50,12 @@ export function AuthProvider({ children }) {
     const logout = async () => {
         try {
             await axios.post(
-                "https://tasks.fineko.space/api/auth/logout"
+                "https://tasks.fineko.space/api/auth/logout",
+                {},
+                {
+                    headers: { "X-CSRF-Token": getCsrfToken() },
+                    withCredentials: true,
+                }
             );
         } catch (e) {
             // ignore
