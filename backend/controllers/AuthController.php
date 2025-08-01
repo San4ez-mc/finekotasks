@@ -12,11 +12,7 @@ class AuthController extends Controller
 {
     public function beforeAction($action)
     {
-        $origin = Yii::$app->request->headers->get('Origin');
-        $host = Yii::$app->request->hostInfo;
-        if ($origin === null || stripos($origin, $host) === 0) {
-            $this->enableCsrfValidation = false;
-        }
+        Yii::$app->response->format = Response::FORMAT_JSON;
         return parent::beforeAction($action);
     }
 
@@ -39,9 +35,8 @@ class AuthController extends Controller
 
     public function actionLogin()
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
         $model = new LoginForm();
-        $model->load(Yii::$app->request->post(), '');
+        $model->load(Yii::$app->request->bodyParams, '');
         if ($model->login()) {
             return ['success' => true, 'user' => Yii::$app->user->identity];
         }
@@ -62,8 +57,7 @@ class AuthController extends Controller
 
     public function actionTelegramLogin()
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        $id = Yii::$app->request->post('telegram_id');
+        $id = Yii::$app->request->bodyParams['telegram_id'] ?? null;
         if (!$id) {
             return ['success' => false, 'message' => 'telegram_id required'];
         }
@@ -78,8 +72,7 @@ class AuthController extends Controller
 
     public function actionRequestPasswordReset()
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        $email = Yii::$app->request->post('email');
+        $email = Yii::$app->request->bodyParams['email'] ?? null;
         if (!$email) {
             return ['success' => false, 'message' => 'Email required'];
         }
@@ -101,9 +94,8 @@ class AuthController extends Controller
 
     public function actionResetPassword()
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        $token = Yii::$app->request->post('token');
-        $password = Yii::$app->request->post('password');
+        $token = Yii::$app->request->bodyParams['token'] ?? null;
+        $password = Yii::$app->request->bodyParams['password'] ?? null;
         if (!$token || !$password) {
             return ['success' => false, 'message' => 'Token and password required'];
         }
