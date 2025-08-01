@@ -48,6 +48,7 @@ $config = [
             'showScriptName' => false,
             'enableStrictParsing' => false,
             'rules' => [
+
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => ['task', 'result', 'user', 'position'],
@@ -60,6 +61,7 @@ $config = [
                 'POST api/auth/reset-password' => 'auth/reset-password',
                 'GET api/task/by-date' => 'task/by-date',  // нове правило
                 'GET api/test' => 'test/index',
+
             ],
         ],
         'response' => [
@@ -68,7 +70,7 @@ $config = [
                 $response = $event->sender;
                 $response->headers->set('Access-Control-Allow-Origin', '*');
                 $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-                $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+                $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-CSRF-Token');
             },
         ],
         'as cors' => [
