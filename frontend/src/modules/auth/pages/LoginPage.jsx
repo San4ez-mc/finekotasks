@@ -1,6 +1,6 @@
 // frontend/src/modules/auth/pages/LoginPage.jsx
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import AuthLayout from "../../../components/layout/AuthLayout/AuthLayout";
 import "./LoginPage.css";
 import { useAuth } from "../../../context/AuthContext";
@@ -58,6 +58,9 @@ export default function LoginPage() {
                 >
                     Увійти через Telegram
                 </button>
+                <div className="forgot-link">
+                    <Link to="/auth/forgot">Забули пароль?</Link>
+                </div>
             </form>
         </AuthLayout>
     );

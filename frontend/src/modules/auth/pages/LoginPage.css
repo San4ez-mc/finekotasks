@@ -37,3 +37,16 @@
     margin-bottom: 10px;
     text-align: center;
 }
+.login-form .success {
+    color: #2e7d32;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.login-form .forgot-link {
+    margin-top: 10px;
+    text-align: center;
+}
+.login-form .forgot-link a {
+    color: #1976d2;
+    text-decoration: none;
+}
