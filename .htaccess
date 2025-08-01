@@ -20,6 +20,8 @@ RewriteRule ^api/(.*)$ backend/web/index.php [L]
 # Видаємо React build з папки frontend/build
 # Спочатку обробляємо статичні ресурси
 RewriteRule ^static/(.*)$ frontend/build/static/$1 [L]
+# Кореневі файли збірки (favicon, manifest тощо)
+RewriteRule ^(favicon\.ico|logo192\.png|logo512\.png|manifest\.json|robots\.txt)$ frontend/build/$1 [L]
 # Якщо файл або директорія існує — віддаємо як є
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
