@@ -54,6 +54,7 @@ $config = [
                 'POST auth/telegram-login' => 'auth/telegram-login',
                 'POST auth/request-password-reset' => 'auth/request-password-reset',
                 'POST auth/reset-password' => 'auth/reset-password',
+                'GET auth/csrf' => 'auth/csrf',
                 'GET task/by-date' => 'task/by-date',  // нове правило
                 'GET test' => 'test/index',
             ],
@@ -64,7 +65,7 @@ $config = [
                 $response = $event->sender;
                 $response->headers->set('Access-Control-Allow-Origin', '*');
                 $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-                $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+                $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-CSRF-Token');
             },
         ],
         'as cors' => [

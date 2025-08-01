@@ -49,6 +49,12 @@ class AuthController extends Controller
         return ['success' => true];
     }
 
+    public function actionCsrf()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return ['csrfToken' => Yii::$app->request->getCsrfToken()];
+    }
+
     public function actionTelegramLogin()
     {
         $id = Yii::$app->request->bodyParams['telegram_id'] ?? null;

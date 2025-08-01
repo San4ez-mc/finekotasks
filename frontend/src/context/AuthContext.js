@@ -3,7 +3,23 @@ import axios from "axios";
 
 const AuthContext = createContext(null);
 
+async function getCsrfToken() {
+  const meta = document.querySelector('meta[name="csrf-token"]');
+  if (meta) {
+    return meta.getAttribute("content");
+  }
+  const match = document.cookie.match(/(^|;\s*)_csrf=([^;]+)/);
+  if (match) {
+    return decodeURIComponent(match[2]);
+  }
+  const res = await axios.get("https://tasks.fineko.space/api/auth/csrf", {
+    withCredentials: true,
+  });
+  return res.data.csrfToken;
+}
+
 export function AuthProvider({ children }) {
+
     const [user, setUser] = useState(null);
 
     useEffect(() => {
@@ -44,19 +60,23 @@ export function AuthProvider({ children }) {
             );
         } catch (e) {
             // ignore
-        }
-        setUser(null);
-        localStorage.removeItem("user");
-    };
 
-    return (
-        <AuthContext.Provider value={{ user, login, logout }}>
-            {children}
-        </AuthContext.Provider>
-    );
+        }
+      );
+    } catch (e) {
+      // ignore
+    }
+    setUser(null);
+    localStorage.removeItem("user");
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export function useAuth() {
-    return useContext(AuthContext);
+  return useContext(AuthContext);
 }
-
