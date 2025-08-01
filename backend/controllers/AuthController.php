@@ -17,9 +17,10 @@ class AuthController extends Controller
             'class' => Cors::class,
             'cors' => [
                 'Origin' => ['*'],
-                'Access-Control-Request-Method' => ['POST', 'OPTIONS'],
+                'Access-Control-Request-Method' => ['GET', 'POST', 'OPTIONS'],
                 'Access-Control-Allow-Credentials' => true,
                 'Access-Control-Max-Age' => 3600,
+                'Access-Control-Allow-Headers' => ['Content-Type', 'Authorization'],
                 'Access-Control-Request-Headers' => ['*'],
             ],
         ];
