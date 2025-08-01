@@ -10,6 +10,7 @@ use app\models\User;
 
 class AuthController extends Controller
 {
+    public $enableCsrfValidation = true;
     public function beforeAction($action)
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -26,11 +27,16 @@ class AuthController extends Controller
                 'Access-Control-Request-Method' => ['GET', 'POST', 'OPTIONS'],
                 'Access-Control-Allow-Credentials' => true,
                 'Access-Control-Max-Age' => 3600,
-                'Access-Control-Allow-Headers' => ['Content-Type', 'Authorization'],
+                'Access-Control-Allow-Headers' => ['Content-Type', 'Authorization', 'X-CSRF-Token'],
                 'Access-Control-Request-Headers' => ['*'],
             ],
         ];
         return $behaviors;
+    }
+
+    public function actionCsrf()
+    {
+        return ['csrfToken' => Yii::$app->request->getCsrfToken()];
     }
 
     public function actionLogin()
