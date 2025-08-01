@@ -15,6 +15,7 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'RnmH64wG8bRABrW3rP9QUI0kEDBdcCJz',
+
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
             ],
@@ -64,13 +65,16 @@ $config = [
                         'GET csrf' => 'csrf',
                     ],
                 ],
+
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => ['task', 'result', 'user', 'position'],
                     'prefix' => 'api',
                 ],
+
                 'GET api/task/by-date' => 'task/by-date',  // нове правило
                 'GET api/test' => 'test/index',
+
             ],
         ],
         'response' => [
