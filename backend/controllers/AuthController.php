@@ -10,6 +10,16 @@ use app\models\User;
 
 class AuthController extends Controller
 {
+    public function beforeAction($action)
+    {
+        $origin = Yii::$app->request->headers->get('Origin');
+        $host = Yii::$app->request->hostInfo;
+        if ($origin === null || stripos($origin, $host) === 0) {
+            $this->enableCsrfValidation = false;
+        }
+        return parent::beforeAction($action);
+    }
+
     public function behaviors()
     {
         $behaviors = parent::behaviors();
@@ -17,9 +27,10 @@ class AuthController extends Controller
             'class' => Cors::class,
             'cors' => [
                 'Origin' => ['*'],
-                'Access-Control-Request-Method' => ['POST', 'OPTIONS'],
+                'Access-Control-Request-Method' => ['GET', 'POST', 'OPTIONS'],
                 'Access-Control-Allow-Credentials' => true,
                 'Access-Control-Max-Age' => 3600,
+                'Access-Control-Allow-Headers' => ['Content-Type', 'Authorization', 'X-CSRF-Token'],
                 'Access-Control-Request-Headers' => ['*'],
             ],
         ];
@@ -41,6 +52,12 @@ class AuthController extends Controller
     {
         Yii::$app->user->logout();
         return ['success' => true];
+    }
+
+    public function actionCsrf()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return ['csrfToken' => Yii::$app->request->getCsrfToken()];
     }
 
     public function actionTelegramLogin()
