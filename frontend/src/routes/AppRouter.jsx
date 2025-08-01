@@ -1,12 +1,13 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "../pages/HomePage";
-import TasksPage from "../modules/tasks/pages/TasksPage";
 import DailyTasksPage from "../modules/tasks/pages/DailyTasksPage";
 import ResultsPage from "../modules/results/pages/ResultsPage";
 import OrgStructurePage from "../modules/orgStructure/pages/OrgStructurePage";
 import TelegramGroupPage from "../modules/telegram/pages/TelegramGroupPage";
 import LoginPage from "../modules/auth/pages/LoginPage";
+import ForgotPasswordPage from "../modules/auth/pages/ForgotPasswordPage";
+import ResetPasswordPage from "../modules/auth/pages/ResetPasswordPage";
 import NotFound from "../pages/NotFound";
 import { useAuth } from "../context/AuthContext";
 import { Navigate } from "react-router-dom";
@@ -21,6 +22,8 @@ export default function AppRouter() {
         <Router>
             <Routes>
                 <Route path="/auth" element={<LoginPage />} />
+                <Route path="/auth/forgot" element={<ForgotPasswordPage />} />
+                <Route path="/auth/reset/:token" element={<ResetPasswordPage />} />
                 <Route
                     path="/"
                     element={
