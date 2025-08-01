@@ -7,6 +7,7 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'defaultRoute' => 'test/index',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
@@ -15,6 +16,7 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'RnmH64wG8bRABrW3rP9QUI0kEDBdcCJz',
+            'enableCsrfValidation' => false,
 
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
@@ -28,7 +30,7 @@ $config = [
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'errorAction' => 'error/index',
         ],
         'mailer' => [
             'class' => \yii\symfonymailer\Mailer::class,
@@ -62,7 +64,6 @@ $config = [
                         'POST telegram-login' => 'telegram-login',
                         'POST request-password-reset' => 'request-password-reset',
                         'POST reset-password' => 'reset-password',
-                        'GET csrf' => 'csrf',
                     ],
                 ],
 
@@ -83,7 +84,7 @@ $config = [
                 $response = $event->sender;
                 $response->headers->set('Access-Control-Allow-Origin', '*');
                 $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-                $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-CSRF-Token');
+                $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
             },
         ],
         'as cors' => [
