@@ -48,15 +48,20 @@ $config = [
             'showScriptName' => false,
             'enableStrictParsing' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule', 'controller' => ['task', 'result', 'user', 'position']],
-                'POST auth/login' => 'auth/login',
-                'POST auth/logout' => 'auth/logout',
-                'POST auth/telegram-login' => 'auth/telegram-login',
-                'POST auth/request-password-reset' => 'auth/request-password-reset',
-                'POST auth/reset-password' => 'auth/reset-password',
-                'GET auth/csrf' => 'auth/csrf',
-                'GET task/by-date' => 'task/by-date',  // нове правило
-                'GET test' => 'test/index',
+
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => ['task', 'result', 'user', 'position'],
+                    'prefix' => 'api',
+                ],
+                'POST api/auth/login' => 'auth/login',
+                'POST api/auth/logout' => 'auth/logout',
+                'POST api/auth/telegram-login' => 'auth/telegram-login',
+                'POST api/auth/request-password-reset' => 'auth/request-password-reset',
+                'POST api/auth/reset-password' => 'auth/reset-password',
+                'GET api/task/by-date' => 'task/by-date',  // нове правило
+                'GET api/test' => 'test/index',
+
             ],
         ],
         'response' => [
