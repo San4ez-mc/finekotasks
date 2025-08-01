@@ -10,6 +10,16 @@ use app\models\User;
 
 class AuthController extends Controller
 {
+    public function beforeAction($action)
+    {
+        $origin = Yii::$app->request->headers->get('Origin');
+        $host = Yii::$app->request->hostInfo;
+        if ($origin === null || stripos($origin, $host) === 0) {
+            $this->enableCsrfValidation = false;
+        }
+        return parent::beforeAction($action);
+    }
+
     public function behaviors()
     {
         $behaviors = parent::behaviors();
@@ -42,6 +52,12 @@ class AuthController extends Controller
     {
         Yii::$app->user->logout();
         return ['success' => true];
+    }
+
+    public function actionCsrf()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return ['csrfToken' => Yii::$app->request->getCsrfToken()];
     }
 
     public function actionTelegramLogin()
