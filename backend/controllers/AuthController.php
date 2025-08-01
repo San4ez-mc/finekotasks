@@ -6,6 +6,7 @@ use yii\rest\Controller;
 use yii\web\Response;
 use yii\filters\Cors;
 use app\models\LoginForm;
+use app\models\User;
 
 class AuthController extends Controller
 {
@@ -57,4 +58,47 @@ class AuthController extends Controller
         return ['success' => false, 'message' => 'User not found'];
     }
 
+
+    public function actionRequestPasswordReset()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $email = Yii::$app->request->post('email');
+        if (!$email) {
+            return ['success' => false, 'message' => 'Email required'];
+        }
+        $user = User::findOne(['email' => $email]);
+        if (!$user) {
+            return ['success' => false, 'message' => 'User not found'];
+        }
+        $user->generatePasswordResetToken();
+        if ($user->save(false)) {
+            Yii::$app->mailer->compose('passwordResetToken', ['user' => $user])
+                ->setFrom([Yii::$app->params['senderEmail'] => Yii::$app->params['senderName']])
+                ->setTo($user->email)
+                ->setSubject('Password reset')
+                ->send();
+            return ['success' => true];
+        }
+        return ['success' => false, 'message' => 'Unable to generate token'];
+    }
+
+    public function actionResetPassword()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $token = Yii::$app->request->post('token');
+        $password = Yii::$app->request->post('password');
+        if (!$token || !$password) {
+            return ['success' => false, 'message' => 'Token and password required'];
+        }
+        $user = User::findByPasswordResetToken($token);
+        if (!$user) {
+            return ['success' => false, 'message' => 'Invalid or expired token'];
+        }
+        $user->setPassword($password);
+        $user->removePasswordResetToken();
+        if ($user->save(false)) {
+            return ['success' => true];
+        }
+        return ['success' => false, 'message' => 'Unable to reset password'];
+    }
 }
