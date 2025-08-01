@@ -19,50 +19,48 @@ async function getCsrfToken() {
 }
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    const stored = localStorage.getItem("user");
-    if (stored) {
-      try {
-        setUser(JSON.parse(stored));
-      } catch (e) {
-        console.error("Failed to parse stored user", e);
-      }
-    }
-  }, []);
+    const [user, setUser] = useState(null);
 
-  const login = async (username, password) => {
-    try {
-      const token = await getCsrfToken();
-      const res = await axios.post(
-        "https://tasks.fineko.space/api/auth/login",
-        { username, password },
-        {
-          headers: { "X-CSRF-Token": token },
-          withCredentials: true,
+    useEffect(() => {
+        const stored = localStorage.getItem("user");
+        if (stored) {
+            try {
+                setUser(JSON.parse(stored));
+            } catch (e) {
+                console.error("Failed to parse stored user", e);
+            }
         }
-      );
-      if (res.data && res.data.success) {
-        setUser(res.data.user);
-        localStorage.setItem("user", JSON.stringify(res.data.user));
-        return true;
-      }
-    } catch (e) {
-      console.error("Login error", e);
-    }
-    return false;
-  };
+    }, []);
 
-  const logout = async () => {
-    try {
-      const token = await getCsrfToken();
-      await axios.post(
-        "https://tasks.fineko.space/api/auth/logout",
-        {},
-        {
-          headers: { "X-CSRF-Token": token },
-          withCredentials: true,
+    const login = async (username, password) => {
+        try {
+            const res = await axios.post(
+                "https://tasks.fineko.space/api/auth/login",
+                { username, password },
+                { withCredentials: true }
+            );
+            if (res.data && res.data.success) {
+                setUser(res.data.user);
+                localStorage.setItem("user", JSON.stringify(res.data.user));
+                return true;
+            }
+        } catch (e) {
+            console.error("Login error", e);
+        }
+        return false;
+    };
+
+    const logout = async () => {
+        try {
+            await axios.post(
+                "https://tasks.fineko.space/api/auth/logout",
+                {},
+                { withCredentials: true }
+            );
+        } catch (e) {
+            // ignore
+
         }
       );
     } catch (e) {

@@ -30,7 +30,7 @@ class AuthController extends Controller
                 'Access-Control-Request-Method' => ['GET', 'POST', 'OPTIONS'],
                 'Access-Control-Allow-Credentials' => true,
                 'Access-Control-Max-Age' => 3600,
-                'Access-Control-Allow-Headers' => ['Content-Type', 'Authorization', 'X-CSRF-Token'],
+                'Access-Control-Allow-Headers' => ['Content-Type', 'Authorization'],
                 'Access-Control-Request-Headers' => ['*'],
             ],
         ];
