@@ -1,23 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { getCsrfToken } from "../utils/csrf";
 
 const AuthContext = createContext(null);
 
-// async function getCsrfToken() {
-//   const meta = document.querySelector('meta[name="csrf-token"]');
-//   if (meta) {
-//     return meta.getAttribute("content");
-//   }
-//   const match = document.cookie.match(/(^|;\s*)_csrf=([^;]+)/);
-//   if (match) {
-//     return decodeURIComponent(match[2]);
-//   }
-//   const res = await axios.get("https://tasks.fineko.space/api/auth/csrf", {
-//     withCredentials: true,
-//   });
-//   return res.data.csrfToken;
-// }
 
 export function AuthProvider({ children }) {
 
@@ -36,13 +21,11 @@ export function AuthProvider({ children }) {
 
   const login = async (username, password) => {
     try {
-      const token = await getCsrfToken();
       const res = await axios.post(
         "https://tasks.fineko.space/api/auth/login",
         { username, password },
         {
           withCredentials: true,
-          headers: { "X-CSRF-Token": token || "" },
         }
       );
       if (res.data && res.data.success) {
@@ -58,15 +41,12 @@ export function AuthProvider({ children }) {
 
   const logout = async () => {
     try {
-      const token = await getCsrfToken();
       await axios.post(
         "https://tasks.fineko.space/api/auth/logout",
         {},
         {
           withCredentials: true,
-          headers: { "X-CSRF-Token": token || "" },
         }
-
       );
     } catch (e) {
       // ignore
