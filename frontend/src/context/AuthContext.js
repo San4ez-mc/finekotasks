@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { getCsrfToken } from "../utils/csrf";
 
 const AuthContext = createContext(null);
 
@@ -19,9 +20,14 @@ export function AuthProvider({ children }) {
 
     const login = async (username, password) => {
         try {
+            const token = await getCsrfToken();
             const res = await axios.post(
                 "https://tasks.fineko.space/api/auth/login",
-                { username, password }
+                { username, password },
+                {
+                    withCredentials: true,
+                    headers: { "X-CSRF-Token": token || "" },
+                }
             );
             if (res.data && res.data.success) {
                 setUser(res.data.user);
@@ -36,8 +42,14 @@ export function AuthProvider({ children }) {
 
     const logout = async () => {
         try {
+            const token = await getCsrfToken();
             await axios.post(
-                "https://tasks.fineko.space/api/auth/logout"
+                "https://tasks.fineko.space/api/auth/logout",
+                {},
+                {
+                    withCredentials: true,
+                    headers: { "X-CSRF-Token": token || "" },
+                }
             );
         } catch (e) {
             // ignore

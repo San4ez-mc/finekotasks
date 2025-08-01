@@ -10,6 +10,13 @@ use app\models\User;
 
 class AuthController extends Controller
 {
+    public $enableCsrfValidation = true;
+    public function beforeAction($action)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return parent::beforeAction($action);
+    }
+
     public function behaviors()
     {
         $behaviors = parent::behaviors();
@@ -17,20 +24,25 @@ class AuthController extends Controller
             'class' => Cors::class,
             'cors' => [
                 'Origin' => ['*'],
-                'Access-Control-Request-Method' => ['POST', 'OPTIONS'],
+                'Access-Control-Request-Method' => ['GET', 'POST', 'OPTIONS'],
                 'Access-Control-Allow-Credentials' => true,
                 'Access-Control-Max-Age' => 3600,
+                'Access-Control-Allow-Headers' => ['Content-Type', 'Authorization', 'X-CSRF-Token'],
                 'Access-Control-Request-Headers' => ['*'],
             ],
         ];
         return $behaviors;
     }
 
+    public function actionCsrf()
+    {
+        return ['csrfToken' => Yii::$app->request->getCsrfToken()];
+    }
+
     public function actionLogin()
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
         $model = new LoginForm();
-        $model->load(Yii::$app->request->post(), '');
+        $model->load(Yii::$app->request->bodyParams, '');
         if ($model->login()) {
             return ['success' => true, 'user' => Yii::$app->user->identity];
         }
@@ -45,8 +57,7 @@ class AuthController extends Controller
 
     public function actionTelegramLogin()
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        $id = Yii::$app->request->post('telegram_id');
+        $id = Yii::$app->request->bodyParams['telegram_id'] ?? null;
         if (!$id) {
             return ['success' => false, 'message' => 'telegram_id required'];
         }
@@ -61,8 +72,7 @@ class AuthController extends Controller
 
     public function actionRequestPasswordReset()
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        $email = Yii::$app->request->post('email');
+        $email = Yii::$app->request->bodyParams['email'] ?? null;
         if (!$email) {
             return ['success' => false, 'message' => 'Email required'];
         }
@@ -84,9 +94,8 @@ class AuthController extends Controller
 
     public function actionResetPassword()
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        $token = Yii::$app->request->post('token');
-        $password = Yii::$app->request->post('password');
+        $token = Yii::$app->request->bodyParams['token'] ?? null;
+        $password = Yii::$app->request->bodyParams['password'] ?? null;
         if (!$token || !$password) {
             return ['success' => false, 'message' => 'Token and password required'];
         }
