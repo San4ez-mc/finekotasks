@@ -51,6 +51,8 @@ $config = [
                 'POST auth/login' => 'auth/login',
                 'POST auth/logout' => 'auth/logout',
                 'POST auth/telegram-login' => 'auth/telegram-login',
+                'POST auth/request-password-reset' => 'auth/request-password-reset',
+                'POST auth/reset-password' => 'auth/reset-password',
                 'GET task/by-date' => 'task/by-date',  // нове правило
                 'GET test' => 'test/index',
             ],
