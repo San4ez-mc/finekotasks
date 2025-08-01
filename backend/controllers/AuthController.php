@@ -10,7 +10,7 @@ use app\models\User;
 
 class AuthController extends Controller
 {
-    public $enableCsrfValidation = true;
+    public $enableCsrfValidation = false;
     public function beforeAction($action)
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
